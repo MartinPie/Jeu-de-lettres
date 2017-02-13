@@ -114,6 +114,7 @@ public class LetterConsole
 					    System.out.print("[" + c + "] ");
 					}
 					System.out.println("DEBUG");
+					/*test*/
 					
 					//if(this.letterBag)
 					/*VERIFIER SI LE MOT EST DANS LE DICO*/
