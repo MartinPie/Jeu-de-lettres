@@ -33,6 +33,9 @@ public class AppTest
      */
     public void testApp()
     {
-        assertTrue( true );
+    	Dictionnaire dictionnaire = new Dictionnaire();
+    	dictionnaire.addword("ppapa");
+    	dictionnaire.addword("maman");
+        assertTrue( "papa blablabla",dictionnaire.IsWordValid() );
     }
 }
