@@ -115,7 +115,7 @@ public class LetterConsole
 					}
 					System.out.println("DEBUG");
 					/*test*/
-					
+					/*Invit- gihtytubzefszefg*/
 					//if(this.letterBag)
 					/*VERIFIER SI LE MOT EST DANS LE DICO*/
 					
