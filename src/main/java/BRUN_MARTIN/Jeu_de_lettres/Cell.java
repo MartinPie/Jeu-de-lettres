@@ -2,21 +2,22 @@ package BRUN_MARTIN.Jeu_de_lettres;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /* ne pas mettre public*/
-class cell_prof {
+class Cell {
 	
 	private char c;
 	public static final char EOW = '\0'; 
-	Map<Character.cell_prof> cells = new HashMap<>();
+	Map<Character,Cell> cells = new HashMap<>();
 	
-	public Cell_prof(char c)
-	{
+	public Cell(char c) {
 		this.c=c;
 	}
 
-	public void getOrCreate(char firstletter)
+	public Cell getOrCreate(char firstletter)
 	{
 		return cells.computeIfAbsent(firstletter, l ->  new Cell(l));
 		
@@ -31,9 +32,9 @@ class cell_prof {
 		
 	}
 	
-	public void isEndOfWord()
+	public boolean isEndOfWord()
 	{
-		return children.get(EOW)!= null;
+		return this.get(EOW)!= null;
 	}
 	
 	public Optional<Cell> get(char currentLetter)

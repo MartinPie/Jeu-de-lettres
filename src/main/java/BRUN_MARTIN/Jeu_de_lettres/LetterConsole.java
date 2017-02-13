@@ -1,13 +1,17 @@
 package BRUN_MARTIN.Jeu_de_lettres;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Scanner;
+import java.awt.List;
 import java.io.IOException;
 
 public class LetterConsole 
 {
 	Scanner scanner;
 	LinkedList<Player> players;
+	LinkedList<Character> letterBag = new LinkedList();
 	
 
 	public LetterConsole() {
@@ -67,9 +71,9 @@ public class LetterConsole
 		LinkedList<Player> players = new LinkedList<Player>();
 		System.out.println("Number of players?");
 		int nbPlayer = this.scanner.nextInt();
-		for(int i=0; i<nbPlayer; i++)
+		for(int i=1; i<=nbPlayer; i++)
 		{
-			System.out.println("Choose your pseudonyme");
+			System.out.println("Player "+i+": Choose your pseudonyme");
 			Player player = new Player(this.scanner.next());
 			players.add(player);
 		}
@@ -93,6 +97,30 @@ public class LetterConsole
 			for(Player p:this.players) {
 				
 				System.out.println("Le joueur "+p.getPseudo()+" tire une lettre");
+				Random r = new Random();
+				char e = (char)(r.nextInt(26) + 'a');
+				this.letterBag.add(e);
+				System.out.println("Lettre tirée : "+e);
+				System.out.println("Lettres disponibles : "+this.letterBag);
+				System.out.println("Entrez un mot possible : " + this.letterBag);
+				System.out.println("Si aucun mot disponible, Entrez /end pour passer au joueur suivant");
+				String word = this.scanner.next();
+				
+				if(!word.contains("/end"))
+				{
+					System.out.println("DEBUG");
+					char[] charArray = word.toCharArray();
+					for(char c: charArray) {
+					    System.out.print("[" + c + "] ");
+					}
+					System.out.println("DEBUG");
+					
+					//if(this.letterBag)
+					/*VERIFIER SI LE MOT EST DANS LE DICO*/
+					
+				}
+				
+				
 			}			
 		}
 		while(endgame == false);
@@ -127,4 +155,5 @@ public class LetterConsole
 	public static void main(String[] args) {		
 		LetterConsole console = new LetterConsole();
 	}
+
 }
