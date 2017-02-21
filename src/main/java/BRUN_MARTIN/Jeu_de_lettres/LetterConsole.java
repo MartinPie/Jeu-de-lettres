@@ -1,161 +1,111 @@
 package BRUN_MARTIN.Jeu_de_lettres;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.List;
 import java.util.Scanner;
-import java.awt.List;
-import java.io.IOException;
 
-public class LetterConsole 
-{
+public class LetterConsole {
 	Scanner scanner;
-	LinkedList<Player> players;
-	LinkedList<Character> letterBag = new LinkedList();
-	
+	List<Player> players;
+	Bag letterBag = Bag.getInstance();
+	Printer printer = new Printer();
 
+	/***
+	 * Ecran de départ affichant les possibilités
+	 */
 	public LetterConsole() {
 		this.scanner = new Scanner(System.in);
-		System.out.println("--- Welcome to Letter Farming Simulator 2017 ---");
+		printer.welcome();
 		String rep;
 		do {
-			System.out.println("What do you want to do ? (h for help)");
+			printer.menu();
 			rep = this.scanner.next();
 			try {
 				switch (rep) {
-				case "h" :
-					this.printHelp();
+				case "h":
+					printer.printHelp();
 					break;
-				case "local" :
+				case "play":
 					this.localGame();
 					break;
-				case "rules" :
-					this.rules();
+				case "rules":
+					printer.rules();
 					break;
-				default :
+				default:
 					break;
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				System.err.println(e.getMessage());
-				System.err.println();
-			}	
-			
+			}
+
 		} while (!rep.equals("q"));
-		System.out.println("See you next times!!!");
+		printer.goodbye();
 	}
-	
-	public void printHelp () {
-		System.out.println("h : Print this help");
-		System.out.println("local  : start the game in local");
-		System.out.println("online  : start the game on the internet");
-		System.out.println("rules  : Game's rules. Only available in french");
-		System.out.println("q : Quit");
-		System.out.println();
-	}
-	
-	public void localGame()
-	{
-		System.out.println("Local game");
-		this.players = this.createPlayer();
+
+	/***
+	 * Jeu local
+	 */
+	public void localGame() {
+		this.players = Player.createPlayer();
 		try {
+			this.firstRound();
 			this.game();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.println(e.getMessage());
 		}
 	}
-	
-	public LinkedList<Player> createPlayer()
-	{
-		LinkedList<Player> players = new LinkedList<Player>();
-		System.out.println("Number of players?");
-		int nbPlayer = this.scanner.nextInt();
-		for(int i=1; i<=nbPlayer; i++)
-		{
-			System.out.println("Player "+i+": Choose your pseudonyme");
-			Player player = new Player(this.scanner.next());
-			players.add(player);
-		}
-		return players;
-	}
-	
-	public void game() throws InterruptedException {		
-		System.out.println("Start of the Game");
-		Thread.sleep(1000);
-		System.out.println("3");
-		Thread.sleep(1000);
-		System.out.println("2");
-		Thread.sleep(1000);
-		System.out.println("1");
-		Thread.sleep(1000);
-		System.out.println("Go!!!!");
-		boolean endgame;
-		endgame=false;
-		do
-		{
-			for(Player p:this.players) {
-				
-				System.out.println("Le joueur "+p.getPseudo()+" tire une lettre");
-				Random r = new Random();
-				char e = (char)(r.nextInt(26) + 'a');
-				this.letterBag.add(e);
-				System.out.println("Lettre tirée : "+e);
-				System.out.println("Lettres disponibles : "+this.letterBag);
-				System.out.println("Entrez un mot possible : " + this.letterBag);
-				System.out.println("Si aucun mot disponible, Entrez /end pour passer au joueur suivant");
-				String word = this.scanner.next();
-				
-				if(!word.contains("/end"))
-				{
-					System.out.println("DEBUG");
-					char[] charArray = word.toCharArray();
-					for(char c: charArray) {
-					    System.out.print("[" + c + "] ");
-					}
-					System.out.println("DEBUG");
-					/*test*/
-					/*Invit- gihtytubzefszefg*/
-					//if(this.letterBag
-					
-					/*VERIFIER SI LE MOT EST DANS LE DICO*/
-					
-				}
-				
-				
-			}			
-		}
-		while(endgame == false);
 
-		
+	/***
+	 * Jeu principal
+	 * 
+	 * @throws InterruptedException
+	 */
+	public void game() throws InterruptedException {
+
+		String word;
+		boolean endgame;
+		endgame = false;
+
+		printer.countdown();
+
+		do {
+			for (Player p : this.players) {
+
+				System.out.println("\nLe joueur " + p.getPseudo() + " tire deux lettres");
+				Bag.getInstance().add(2);
+
+				do {
+					Bag.getInstance().showLetters();
+					for (Player player : this.players) {
+						System.out.println("\nMots de " + player.getPseudo() + ":");
+						player.showWords();
+					}
+
+					printer.instruction();
+					
+					word = this.scanner.next();
+					char[] charArray = word.toCharArray();
+					for (char c : charArray) {
+						System.out.print("[" + c + "] ");
+					}
+
+					/* TODO: VERIFIER SI LE MOT EST DANS LE DICO */
+
+				} while (!"/end".equals(word));
+
+			}
+		} while (!endgame);
+
 	}
-	
-	public void rules()
-	{
-		/* TODO READ A FILE INSTEAD OF PRINTLN MARTIN IT'S FOR YOU!!!!!*/
-		System.out.println("Objectif du jeux :Le premier joueur ayant 10 mots gagne la partie");
-		System.out.println("Déroulement du jeux :");
-		System.out.println("");
-		System.out.println("Chacun des joueurs tire une lettre aléatoire d'un sac, et les mettent au milieu dans le pot commun");
-		System.out.println("Le joueur qui a tiré la lettre la plus petite lettre dans l'alphabet commence");
-		System.out.println("Chaque fois que c'est le début du tour d'un joueur il tire deux lettres aléatoires qu'il rajoute au pot commun");
-		System.out.println("Chaque fois qu'un joueur fait un mot il tire une lettre aléatoire qu'il rajoute au pot commun");
-		System.out.println("Quand le joueur ne trouve plus de mot il passe et le joueur suivant commence son tour (par tirer 2 lettres qu'il rajoute au pot commun)");
-		System.out.println("Comment faire un mot ?");
-		System.out.println("");
-		System.out.println("En utilisant uniquement les lettres du pot commun");
-		System.out.println("En prenant un mot de ces adversaires (toutes les lettres du mot) et en lui rajoutant des lettres du pot commun");
-		System.out.println("En rallongeant un de ces mots avec des lettres du pot commun ou en utilisant un autre mot (toutes les lettres)");
-		System.out.println("Attention, seul les noms communs sont autorisés");
-		System.out.println("Pour faciliter :");
-		System.out.println("");
-		System.out.println("les lettres possibles sont uniquement les 26 de l'alphabet (ex : é <-> e)");
-		System.out.println("les mots composés sont considérés comme deux mots");
-		System.out.println();
+
+	public void firstRound() {
+		for (Player p : this.players) {
+			System.out.println("\nLe joueur " + p.getPseudo() + " tire une lettre lettres");
+			Bag.getInstance().add(1);
+		}
 	}
-	
-	public static void main(String[] args) {		
-		LetterConsole console = new LetterConsole();
+
+	public static void main(String[] args) {
+		new LetterConsole();
 	}
 
 }
