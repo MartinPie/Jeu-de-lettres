@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class LetterConsole {
 	Scanner scanner;
 	List<Player> players;
-	Bag letterBag = Bag.getInstance();
+	Jar letterJar = Jar.getInstance();
 	Printer printer = new Printer();
 
 	/***
@@ -61,7 +61,7 @@ public class LetterConsole {
 	 */
 	public void game() throws InterruptedException {
 
-		String word;
+		String rep;
 		boolean endgame;
 		endgame = false;
 
@@ -70,42 +70,62 @@ public class LetterConsole {
 		do {
 			for (Player p : this.players) {
 
-				System.out.println("\nLe joueur " + p.getPseudo() + " tire deux lettres");
-				Bag.getInstance().add(2);
+				System.out.println("\nPlayer" + p.getPseudo() + " draw two letters");
+				Jar.getInstance().add(2);
 
 				do {
-					Bag.getInstance().showLetters();
+					Jar.getInstance().showLetters();
 					for (Player player : this.players) {
-						System.out.println("\nMots de " + player.getPseudo() + ":");
+						System.out.println("\n" + player.getPseudo() + "'s words :");
 						player.showWords();
 					}
-
 					printer.instruction();
-					
-					word = this.scanner.next();
-					char[] charArray = word.toCharArray();
-					for (char c : charArray) {
-						System.out.print("[" + c + "] ");
+
+					rep = this.scanner.next();
+					try {
+						switch (rep) {
+						case "steal":
+							stealWord();
+							break;
+						case "make":
+							makeWord();
+							break;
+						default:
+							break;
+						}
+					} catch (Exception e) {
+						System.err.println(e.getMessage());
 					}
-
-					/* TODO: VERIFIER SI LE MOT EST DANS LE DICO */
-
-				} while (!"/end".equals(word));
-
+				} while (!"end".equals(rep));
+				if (p.isWinner()) {
+					endgame = true;
+					System.out.println(p.getPseudo() + " win");
+					break;
+				}
 			}
 		} while (!endgame);
-
 	}
 
 	public void firstRound() {
 		for (Player p : this.players) {
-			System.out.println("\nLe joueur " + p.getPseudo() + " tire une lettre lettres");
-			Bag.getInstance().add(1);
+			System.out.println("\nPlayer " + p.getPseudo() + " draw a letter");
+			Jar.getInstance().add(1);
 		}
+		// TODO: savoir qui commence
 	}
 
 	public static void main(String[] args) {
 		new LetterConsole();
+	}
+
+	public void makeWord() {
+		// TODO: makeword function
+	}
+
+	public void stealWord() {
+		// TODO: steal function
+		// mettre fonction tirer carte si ca marche sinon nan ( ou alors
+		// renvoyer boolean si ca marche et exporter au cran du dessus
 	}
 
 }

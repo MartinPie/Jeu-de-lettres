@@ -60,7 +60,9 @@ public class Printer {
 	}
 	
 	public void instruction(){
-		System.out.println("\nEntrez un mot possible : ");
-		System.out.println("Si aucun mot disponible, Entrez /end pour passer au joueur suivant");
+		System.out.println("What do you want to do ?");
+		System.out.println("steal : steal a word ");
+		System.out.println("make : make a word ");
+		System.out.println("end : end the turn");
 	}
 }

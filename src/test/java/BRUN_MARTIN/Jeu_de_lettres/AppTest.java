@@ -29,7 +29,7 @@ public class AppTest extends TestCase {
 	 * Rigourous Test :-)
 	 */
 	public void testApp() {
-		Dictionary dictionnaire = new Dictionary();
+//		Dictionary dictionnaire = new Dictionary();
 //		dictionnaire.addWord("ppapa");
 //		dictionnaire.addWord("maman");
 //		assertTrue("papa blablabla", dictionnaire.isWordValid("papa blablabla"));
