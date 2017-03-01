@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Dictionary {
 
-	Set<Word> words;
+	Set<String> words;
 	private static String path = System.getProperty("user.dir") + "/src/main/resources/dico.txt";
 	Parser parser;
 

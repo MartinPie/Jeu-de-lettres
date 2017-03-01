@@ -7,23 +7,22 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Parser {
-	
-	public Set<Word> parseWords(String path){
-		Set<Word> words = new HashSet<Word>();
+
+	public Set<String> parseWords(String path) {
+		Set<String> words = new HashSet<String>();
 		File text = new File(path);
 		Scanner scnr;
-		
+
 		try {
 			scnr = new Scanner(text);
 
 			while (scnr.hasNextLine()) {
-				Word word = new Word(scnr.nextLine());
-				words.add(word);
+				words.add(scnr.nextLine());
 			}
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getMessage());
 		}
-		
+
 		return words;
 	}
 

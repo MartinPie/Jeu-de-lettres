@@ -2,18 +2,18 @@ package BRUN_MARTIN.Jeu_de_lettres;
 
 public class Printer {
 
-	public void welcome(){
+	public void welcome() {
 		System.out.println("--- Welcome to Letter Farming Simulator 2017 ---\n\n");
 	}
-	
-	public void menu(){
+
+	public void menu() {
 		System.out.println("What do you want to do ? (h for help)");
 	}
-	
-	public void goodbye(){
+
+	public void goodbye() {
 		System.out.println("See you next time!!!");
 	}
-	
+
 	public void printHelp() {
 		System.out.println("\nh : Print this help");
 		System.out.println("play  : start the game in local");
@@ -21,9 +21,16 @@ public class Printer {
 		System.out.println("q : Quit");
 		System.out.println();
 	}
-	
+
+	public void printHelp2() {
+		System.out.println("\nh : Print this help");
+		System.out.println("steal : steal a word or complete yours");
+		System.out.println("make : make a word ");
+		System.out.println("end : end the turn");
+		System.out.println();
+	}
+
 	public void rules() {
-		/* TODO lire fichier pour regles */
 		System.out.println("\nObjectif du jeux :Le premier joueur ayant 10 mots gagne la partie");
 		System.out.println("Déroulement du jeux :\n");
 		System.out.println(
@@ -46,7 +53,7 @@ public class Printer {
 		System.out.println("les lettres possibles sont uniquement les 26 de l'alphabet (ex : é <-> e)");
 		System.out.println("les mots composés sont considérés comme deux mots\n");
 	}
-	
+
 	public void countdown() throws InterruptedException {
 		System.out.println("\nStart of the Game");
 		Thread.sleep(1000);
@@ -58,11 +65,5 @@ public class Printer {
 		Thread.sleep(1000);
 		System.out.println("Go!!!!");
 	}
-	
-	public void instruction(){
-		System.out.println("What do you want to do ?");
-		System.out.println("steal : steal a word ");
-		System.out.println("make : make a word ");
-		System.out.println("end : end the turn");
-	}
+
 }

@@ -25,13 +25,19 @@ public class Jar {
 	}
 
 	public void add(int nbLetters) {
+		for (int i = 0; i < nbLetters; i++) {
+			addOne();
+		}
+	}
+
+	public char addOne() {
 		char letter;
 
-		for (int i = 0; i < nbLetters; i++) {
-			letter = (char) (r.nextInt(26) + 'a');
-			letters.add(letter);
-			System.out.println("\nDrawed letter : " + letter);
-		}
+		letter = (char) (r.nextInt(26) + 'a');
+		letters.add(letter);
+		System.out.println("Drawed letter : " + letter);
+
+		return letter;
 	}
 
 	public boolean draw(String word) {
@@ -39,12 +45,20 @@ public class Jar {
 		for (Character letter : word.toCharArray()) {
 			if (letters.contains(letter)) {
 				tempJar.add(letter);
+				letters.remove(letter);
 			} else {
 				System.out.println("The jar don't contains the letter " + letter);
 				this.letters.addAll(tempJar);
 				return false;
 			}
 		}
+
+		if (!Dictionary.getInstance().exist(word)) {
+			System.out.println("This word doesn't exists");
+			this.letters.addAll(tempJar);
+			return false;
+		}
+
 		return true;
 	}
 
