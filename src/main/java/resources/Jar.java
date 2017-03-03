@@ -1,4 +1,4 @@
-package BRUN_MARTIN.Jeu_de_lettres;
+package resources;
 
 import java.util.ArrayList;
 import java.util.List;

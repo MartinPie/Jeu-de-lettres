@@ -1,4 +1,4 @@
-package BRUN_MARTIN.Jeu_de_lettres;
+package game;
 
 import java.io.File;
 import java.io.FileNotFoundException;

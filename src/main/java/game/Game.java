@@ -1,11 +1,13 @@
-package BRUN_MARTIN.Jeu_de_lettres;
+package game;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class LetterConsole {
+import resources.Jar;
+import resources.Player;
+
+public class Game {
 	Scanner scanner;
 	List<Player> players;
 	Jar letterJar = Jar.getInstance();
@@ -14,7 +16,7 @@ public class LetterConsole {
 	/***
 	 * Ecran de départ affichant les possibilités
 	 */
-	public LetterConsole() {
+	public Game() {
 		this.scanner = new Scanner(System.in);
 		printer.welcome();
 		String rep;
@@ -150,7 +152,7 @@ public class LetterConsole {
 	}
 
 	public static void main(String[] args) {
-		new LetterConsole();
+		new Game();
 	}
 
 	public boolean makeWord(Player player) {
