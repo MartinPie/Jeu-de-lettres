@@ -26,16 +26,26 @@ public class Player implements Comparable<Player> {
 	 * @return la liste des joueurs
 	 */
 	public static LinkedList<Player> createPlayer() {
+		int nbPlayer = 0;
 		scanner = new Scanner(System.in);
 		LinkedList<Player> players = new LinkedList<Player>();
-		System.out.println("\nNumber of players?");
-		int nbPlayer = scanner.nextInt();
-
+		while (nbPlayer<2) {
+			System.out.println("\nNumber of players?( Please put an integer > 1)");
+			while (!scanner.hasNextInt()) {
+				System.out.println("AN INTEGER you can't read? ;)");
+				   scanner.nextLine();
+				}
+			nbPlayer = scanner.nextInt();
+		}
 		for (int i = 1; i <= nbPlayer; i++) {
 			System.out.println("\nPlayer " + i + ": Choose your pseudonyme");
 			String pseudo = scanner.next();
 			System.out.println("\nPlayer " + pseudo + ": Set this player as an AI? true/false");
-		    boolean ai = scanner.nextBoolean();
+			while (!scanner.hasNextBoolean()) {
+				System.out.println("enter true or false");
+				   scanner.nextLine();
+				}
+			boolean ai = scanner.nextBoolean();
 			Player player = new Player(pseudo,ai);
 			players.add(player);
 		}

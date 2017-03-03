@@ -3,7 +3,6 @@ package game;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
-
 import resources.Jar;
 import resources.Player;
 
@@ -76,12 +75,10 @@ public class Game {
 
 		do {
 			for (Player p : this.players) {
-
 				if (!endgame) {
 					System.out.println("\nPlayer " + p.getPseudo() + " draw two letters");
 					Jar.getInstance().add(2);
 				}
-
 				do {
 					Jar.getInstance().showLetters();
 					for (Player player : this.players) {
@@ -90,47 +87,11 @@ public class Game {
 						player.showWords();
 					}
 					System.out.println(p.getPseudo() + "'s turn");
-					
-					if(!p.isAi())
-					{
-						printer.menu();
-						rep = this.scanner.next();
-						try {
-							switch (rep) {
-							case "steal":
-								if (stealWord(p) && !p.isWinner()) {
-									System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
-									Jar.getInstance().addOne();
-								}
-								break;
-							case "make":
-								if (makeWord(p) && !p.isWinner()) {
-									System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
-									Jar.getInstance().addOne();
-								}
-								break;
-							case "h":
-								printer.printHelp2();
-								break;
-							case "end":
-								break;
-							default:
-								System.out.println("Unknow Command");
-								break;
-							}
-						} catch (Exception e) {
-							System.err.println(e.getMessage());
-						}
-					}
-					else
-					{
-						
-						
-						if (makeWordAI(p) && !p.isWinner()) {
-							System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
-							Jar.getInstance().addOne();
-						}
-						rep = "end";
+
+					if (!p.isAi()) {
+						rep = playerTurn(p);
+					} else {
+						rep = iaTurn(p);
 					}
 					if (p.isWinner()) {
 						endgame = true;
@@ -159,28 +120,28 @@ public class Game {
 		String word;
 
 		System.out.println("Enter your word");
-		word = this.scanner.next().trim().toLowerCase();
-
-		if (word != "" && Jar.getInstance().draw(word,player.isAi())) {
+		word = this.scanner.next().trim();
+		
+		word = Jar.getInstance().replaceAll(word);
+		
+		if (word != "" && Jar.getInstance().draw(word, player.isAi())) {
 			player.addWord(word);
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	public boolean makeWordAI(Player player) {
 		String word = Jar.getInstance().getIAWord();
-		if (word != "" && Jar.getInstance().draw(word,player.isAi())) {
-			System.out.println(player.getPseudo()+ " ajoute le mot :" +word);
+		if (word != "" && Jar.getInstance().draw(word, player.isAi())) {
+			System.out.println(player.getPseudo() + " ajoute le mot :" + word);
 			player.addWord(word);
 			return true;
 		}
-		
 		return false;
 	}
 
-	
 	public boolean stealWord(Player player) {
 		int rep;
 		Player player2;
@@ -202,7 +163,9 @@ public class Game {
 		stolenWord = player2.getWordList().get(rep - 1);
 
 		System.out.println("Enter your word");
-		word = this.scanner.next().trim().toLowerCase();
+		word = this.scanner.next().trim();
+		
+		word = Jar.getInstance().replaceAll(word); 
 
 		stolenWordCopy = stolenWord;
 		wordCopy = word;
@@ -220,11 +183,53 @@ public class Game {
 			}
 		}
 
-		if (wordCopy != "" && Jar.getInstance().draw(wordCopy,player.isAi())) {
+		if (wordCopy != "" && Jar.getInstance().draw(wordCopy, player.isAi())) {
 			player.addWord(word);
 			player2.deleteWord(stolenWord);
 			return true;
 		}
 		return false;
+	}
+
+	public String playerTurn(Player p) {
+
+		printer.menu();
+		String rep = this.scanner.next();
+		try {
+			switch (rep) {
+			case "steal":
+				if (stealWord(p) && !p.isWinner()) {
+					System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+					Jar.getInstance().addOne();
+				}
+				break;
+			case "make":
+				if (makeWord(p) && !p.isWinner()) {
+					System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+					Jar.getInstance().addOne();
+				}
+				break;
+			case "h":
+				printer.printHelp2();
+				break;
+			case "end":
+				break;
+			default:
+				System.out.println("Unknow Command");
+				break;
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
+		return rep;
+	}
+
+	public String iaTurn(Player p) {
+		while(makeWordAI(p) && !p.isWinner()) {
+			System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+			Jar.getInstance().addOne();
+		}
+		return "end";
 	}
 }

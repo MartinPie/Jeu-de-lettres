@@ -28,38 +28,31 @@ public class Dictionary {
 		return INSTANCE;
 	}
 
-	public String getBestWord(List<Character> list){
+	public String getBestWord(List<Character> list) {
 		Iterator<String> test = words.iterator();
 		while (test.hasNext()) {
 			String word = test.next();
-			
-			if (word.length() <= list.size())
-			{
-		
+
+			if (word.length() <= list.size()) {
+
 				List<Character> wordList = new ArrayList<Character>();
-				
-				for(char elt : word.toCharArray()){
+
+				for (char elt : word.toCharArray()) {
 					wordList.add(elt);
 				}
-				
-				if(list.containsAll(wordList))
-				{
+
+				if (list.containsAll(wordList)) {
 					return word;
 				}
 			}
 		}
 		return "";
 	}
-	
 
-	
 	public boolean exist(String word) {
-
 		if (words.contains(word)) {
-			
 			return true;
 		}
 		return false;
 	}
-
 }

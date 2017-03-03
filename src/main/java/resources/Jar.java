@@ -79,4 +79,26 @@ public class Jar {
 	{
 		return Dictionary.getInstance().getBestWord(this.getJarLetter());
 	}
+	
+	public String replaceAll(String word){
+		
+		word = word.toLowerCase();
+		word = word.replaceAll("[èéêë]","e");
+		word = word.replaceAll("[àáâãäå]","a");
+		word = word.replaceAll("[òóôõöø]","o");
+		word = word.replaceAll("[ìíîï]","i");
+		word = word.replaceAll("[ùúûü]","u");
+		word = word.replaceAll("[ÿ]","y");
+		word = word.replaceAll("[ç]","c");
+		word = word.replaceAll("[Ç]","C");
+		word = word.replaceAll("[°]","-");
+		word = word.replaceAll("[Ñ]","N");
+		word = word.replaceAll("[ÙÚÛÜ]","U");
+		word = word.replaceAll("[ÌÍÎÏ]","I");
+		word = word.replaceAll("[ÈÉÊË]","E");
+		word = word.replaceAll("[ÒÓÔÕÖØ]","O");
+		word = word.replaceAll("[ÀÁÂÃÄÅ]","A");
+		
+		return word;
+	}
 }

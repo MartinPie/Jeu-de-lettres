@@ -22,8 +22,6 @@ public class Parser {
 		} catch (FileNotFoundException e) {
 			System.err.println(e.getMessage());
 		}
-
 		return words;
 	}
-
 }

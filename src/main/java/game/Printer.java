@@ -65,5 +65,4 @@ public class Printer {
 		Thread.sleep(1000);
 		System.out.println("Go!!!!");
 	}
-
 }
