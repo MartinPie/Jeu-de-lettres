@@ -40,7 +40,7 @@ public class Jar {
 		return letter;
 	}
 
-	public boolean draw(String word, boolean ai) {
+	public boolean draw(String word,String entireWord, boolean ai) {
 		List<Character> tempJar = new ArrayList<Character>();
 		for (Character letter : word.toCharArray()) {
 			if (letters.contains(letter)) {
@@ -53,7 +53,7 @@ public class Jar {
 			}
 		}
 
-		if (!Dictionary.getInstance().exist(word) && !ai) {
+		if (!Dictionary.getInstance().exist(entireWord) && !ai) {
 			System.out.println("This word doesn't exists");
 			this.letters.addAll(tempJar);
 			return false;

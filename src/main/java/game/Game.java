@@ -124,7 +124,7 @@ public class Game {
 		
 		word = Jar.getInstance().replaceAll(word);
 		
-		if (word != "" && Jar.getInstance().draw(word, player.isAi())) {
+		if (word != "" && Jar.getInstance().draw(word,word, player.isAi())) {
 			player.addWord(word);
 			return true;
 		}
@@ -134,7 +134,7 @@ public class Game {
 
 	public boolean makeWordAI(Player player) {
 		String word = Jar.getInstance().getIAWord();
-		if (word != "" && Jar.getInstance().draw(word, player.isAi())) {
+		if (word != "" && Jar.getInstance().draw(word,word, player.isAi())) {
 			System.out.println(player.getPseudo() + " ajoute le mot :" + word);
 			player.addWord(word);
 			return true;
@@ -171,7 +171,7 @@ public class Game {
 		wordCopy = word;
 
 		for (char c : stolenWord.toCharArray()) {
-			int index = word.indexOf(c);
+			int index = wordCopy.indexOf(c);
 
 			if (index != -1) {
 				wordCopy = wordCopy.substring(0, index) + wordCopy.substring(index + 1, wordCopy.length());
@@ -183,7 +183,7 @@ public class Game {
 			}
 		}
 
-		if (wordCopy != "" && Jar.getInstance().draw(wordCopy, player.isAi())) {
+		if (wordCopy != "" && Jar.getInstance().draw(wordCopy,word, player.isAi())) {
 			player.addWord(word);
 			player2.deleteWord(stolenWord);
 			return true;
