@@ -151,6 +151,9 @@ public class Game {
 		String wordCopy;
 
 		System.out.println("Who do you want to steal?(Enter the player number)");
+		while (!scanner.hasNextInt()) {
+			   scanner.nextLine();
+			}
 		rep = this.scanner.nextInt();
 
 		player2 = players.get(rep - 1);
@@ -158,6 +161,10 @@ public class Game {
 		player2.showWords();
 
 		System.out.println("Which word do you want to steal?(Enter the word number)");
+		
+		while (!scanner.hasNextInt()) {
+			   scanner.nextLine();
+			}
 		rep = this.scanner.nextInt();
 
 		stolenWord = player2.getWordList().get(rep - 1);
