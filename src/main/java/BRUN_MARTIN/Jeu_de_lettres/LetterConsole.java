@@ -1,5 +1,6 @@
 package BRUN_MARTIN.Jeu_de_lettres;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
@@ -86,36 +87,49 @@ public class LetterConsole {
 								"\n" + (players.indexOf(player) + 1) + " - " + player.getPseudo() + "'s words :");
 						player.showWords();
 					}
-					printer.menu();
-
-					rep = this.scanner.next();
-					try {
-						switch (rep) {
-						case "steal":
-							if (stealWord(p) && !p.isWinner()) {
-								System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
-								Jar.getInstance().addOne();
+					System.out.println(p.getPseudo() + "'s turn");
+					
+					if(!p.isAi())
+					{
+						printer.menu();
+						rep = this.scanner.next();
+						try {
+							switch (rep) {
+							case "steal":
+								if (stealWord(p) && !p.isWinner()) {
+									System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+									Jar.getInstance().addOne();
+								}
+								break;
+							case "make":
+								if (makeWord(p) && !p.isWinner()) {
+									System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+									Jar.getInstance().addOne();
+								}
+								break;
+							case "h":
+								printer.printHelp2();
+								break;
+							case "end":
+								break;
+							default:
+								System.out.println("Unknow Command");
+								break;
 							}
-							break;
-						case "make":
-							if (makeWord(p) && !p.isWinner()) {
-								System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
-								Jar.getInstance().addOne();
-							}
-							break;
-						case "h":
-							printer.printHelp2();
-							break;
-						case "end":
-							break;
-						default:
-							System.out.println("Unknow Command");
-							break;
+						} catch (Exception e) {
+							System.err.println(e.getMessage());
 						}
-					} catch (Exception e) {
-						System.err.println(e.getMessage());
 					}
-
+					else
+					{
+						
+						
+						if (makeWordAI(p) && !p.isWinner()) {
+							System.out.println("\nPlayer " + p.getPseudo() + " draw one letter");
+							Jar.getInstance().addOne();
+						}
+						rep = "end";
+					}
 					if (p.isWinner()) {
 						endgame = true;
 						System.out.println(p.getPseudo() + " wins");
@@ -145,14 +159,26 @@ public class LetterConsole {
 		System.out.println("Enter your word");
 		word = this.scanner.next().trim().toLowerCase();
 
-		if (word != "" && Jar.getInstance().draw(word)) {
+		if (word != "" && Jar.getInstance().draw(word,player.isAi())) {
 			player.addWord(word);
 			return true;
 		}
 
 		return false;
 	}
+	
+	public boolean makeWordAI(Player player) {
+		String word = Jar.getInstance().getIAWord();
+		if (word != "" && Jar.getInstance().draw(word,player.isAi())) {
+			System.out.println(player.getPseudo()+ " ajoute le mot :" +word);
+			player.addWord(word);
+			return true;
+		}
+		
+		return false;
+	}
 
+	
 	public boolean stealWord(Player player) {
 		int rep;
 		Player player2;
@@ -192,7 +218,7 @@ public class LetterConsole {
 			}
 		}
 
-		if (wordCopy != "" && Jar.getInstance().draw(wordCopy)) {
+		if (wordCopy != "" && Jar.getInstance().draw(wordCopy,player.isAi())) {
 			player.addWord(word);
 			player2.deleteWord(stolenWord);
 			return true;

@@ -11,9 +11,11 @@ public class Player implements Comparable<Player> {
 	private String pseudo;
 	private List<String> wordList;
 	private static Scanner scanner;
+	private boolean ai;
 
-	public Player(String pseudo) {
+	public Player(String pseudo, boolean ai) {
 		this.setPseudo(pseudo);
+		this.setAi(ai);
 		this.order = 0;
 		this.wordList = new ArrayList<String>();
 	}
@@ -31,10 +33,21 @@ public class Player implements Comparable<Player> {
 
 		for (int i = 1; i <= nbPlayer; i++) {
 			System.out.println("\nPlayer " + i + ": Choose your pseudonyme");
-			Player player = new Player(scanner.next());
+			String pseudo = scanner.next();
+			System.out.println("\nPlayer " + pseudo + ": Set this player as an AI? true/false");
+		    boolean ai = scanner.nextBoolean();
+			Player player = new Player(pseudo,ai);
 			players.add(player);
 		}
 		return players;
+	}
+
+	public boolean isAi() {
+		return ai;
+	}
+
+	public void setAi(boolean ai) {
+		this.ai = ai;
 	}
 
 	public void showWords() {

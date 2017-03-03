@@ -1,5 +1,10 @@
 package BRUN_MARTIN.Jeu_de_lettres;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 public class Dictionary {
@@ -23,8 +28,35 @@ public class Dictionary {
 		return INSTANCE;
 	}
 
+	public String getBestWord(List<Character> list){
+		Iterator<String> test = words.iterator();
+		while (test.hasNext()) {
+			String word = test.next();
+			
+			if (word.length() <= list.size())
+			{
+		
+				List<Character> wordList = new ArrayList<Character>();
+				
+				for(char elt : word.toCharArray()){
+					wordList.add(elt);
+				}
+				
+				if(list.containsAll(wordList))
+				{
+					return word;
+				}
+			}
+		}
+		return "";
+	}
+	
+
+	
 	public boolean exist(String word) {
+
 		if (words.contains(word)) {
+			
 			return true;
 		}
 		return false;

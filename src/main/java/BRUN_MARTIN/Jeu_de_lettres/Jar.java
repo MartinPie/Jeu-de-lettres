@@ -40,7 +40,7 @@ public class Jar {
 		return letter;
 	}
 
-	public boolean draw(String word) {
+	public boolean draw(String word, boolean ai) {
 		List<Character> tempJar = new ArrayList<Character>();
 		for (Character letter : word.toCharArray()) {
 			if (letters.contains(letter)) {
@@ -53,7 +53,7 @@ public class Jar {
 			}
 		}
 
-		if (!Dictionary.getInstance().exist(word)) {
+		if (!Dictionary.getInstance().exist(word) && !ai) {
 			System.out.println("This word doesn't exists");
 			this.letters.addAll(tempJar);
 			return false;
@@ -68,5 +68,15 @@ public class Jar {
 			System.out.print(letters.get(i) + " ");
 		}
 		System.out.println("");
+	}
+	
+	public List<Character> getJarLetter()
+	{
+		return this.letters;
+	}
+	
+	public String getIAWord()
+	{
+		return Dictionary.getInstance().getBestWord(this.getJarLetter());
 	}
 }
